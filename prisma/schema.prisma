@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model deletedtodos {
+  deletedtodo_id          Int      @id @default(autoincrement())
+  deletedtodo_name        String   @db.VarChar(255)
+  deletedtodo_description String?
+  deletedtodo_completed   Boolean?
+}
+
+model todos {
+  todo_id          Int      @id @default(autoincrement())
+  todo_name        String   @db.VarChar(255)
+  todo_description String?
+  todo_completed   Boolean?
+}
