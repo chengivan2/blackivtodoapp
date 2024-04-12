@@ -1,47 +1,60 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import * as Form from '@radix-ui/react-form';
 import "@/app/componentsStyles/taskform.css"
 
 
 export default function Taskform() {
 
-    /*const [description, setDescription] = useState("");
+    const [taskName, setTaskName] = useState("");
 
-    const handleChange = (e) => {
-        setDescription(e.target.value);
+    const handleTaskNameChange = (e) => {
+        setTaskName(e.target.value);
     };
 
+    const [taskDescription, setTaskDescription] = useState("");
+
+    const handleTaskDescriptionChange = (e) => {
+        setTaskDescription(e.target.value);
+    };
+    
     const onSubmitForm = async (e) => {
         e.preventDefault();
 
         try {
-            const body_todo = { description };
-            const response = await fetch("http://localhost:5000/todos", {
+            const response_from_create_api = await fetch("/api/create-todo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body_todo)
+                body: JSON.stringify({taskName, taskDescription})
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+            if (!response_from_create_api.ok) {
+                throw new Error(`HTTP error! Status: ${response_from_create_api.status}`);
+            }
+            else {
+                console.log("Added your todo to the DB")
+
             }
 
-            const responseData = await response.json();
+            const responseData = await response_from_create_api.json();
 
-            window.location = "/";
+            console.log(responseData)
+            
 
 
         } catch (error) {
             console.error(error.message);
 
         }
-    }*/
+
+        setTaskName("");
+        setTaskDescription("");
+    }
 
     return (
         <div className='form-container'>
-            <Form.Root className="FormRoot" /*onSubmit={onSubmitForm}*/>
+            <Form.Root className="FormRoot" onSubmit={onSubmitForm}>
                 <Form.Field className="FormField" name="taskname">
                     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
                         <Form.Label className="FormLabel">Task Name</Form.Label>
@@ -50,7 +63,7 @@ export default function Taskform() {
                         </Form.Message>
                     </div>
                     <Form.Control asChild>
-                        <input className="Input" type="text" /*value={description} onChange={handleChange}*/ placeholder='Add a task' required />
+                        <input className="Input" type="text" value={taskName} onChange={handleTaskNameChange} placeholder='Add a task' required />
                     </Form.Control>
                 </Form.Field>
 
@@ -59,7 +72,7 @@ export default function Taskform() {
                         <Form.Label className="FormLabel">Task Description</Form.Label>
                     </div>
                     <Form.Control asChild>
-                        <textarea className="Textarea" placeholder='Add a description for your task' />
+                        <textarea className="Textarea" value={taskDescription} onChange={handleTaskDescriptionChange} placeholder='Add a description for your task' />
                     </Form.Control>
                 </Form.Field>
                 <Form.Submit asChild>

@@ -8,15 +8,15 @@ datasource db {
 }
 
 model deletedtodos {
-  deletedtodo_id          Int      @id @default(autoincrement())
-  deletedtodo_name        String   @db.VarChar(255)
+  deletedtodo_id          Int     @id @default(autoincrement())
+  deletedtodo_name        String  @db.VarChar(255)
   deletedtodo_description String?
-  deletedtodo_completed   Boolean?
+  deletedtodo_completed   Boolean
 }
 
 model todos {
-  todo_id          Int      @id @default(autoincrement())
-  todo_name        String   @db.VarChar(255)
+  todo_id          Int     @id @default(autoincrement())
+  todo_name        String  @db.VarChar(255)
   todo_description String?
-  todo_completed   Boolean?
+  todo_completed   Boolean @default(false)
 }
