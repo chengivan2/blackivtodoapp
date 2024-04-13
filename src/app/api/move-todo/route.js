@@ -5,25 +5,21 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export async function POST(req, res) {
-  const { todoID } = req.body;
-  const todoId = parseInt(todoID, 10)
+  const todoID  = await req.json();
 
   try {
     
-    console.log(`Finding todo ${todoId}...`)
-    console.log(req.body)
-    console.log(`todoId: ${todoId}`)
-    console.log(`todoID: ${todoID}`)
-    console.log(typeof todoId)
+    console.log(`Finding todo ${todoID}...`);
     // Get the todo from the todos table
     const todo = await prisma.todos.findUnique({
       where: {
         todo_id: todoID,
       },
     });
-    console.log("Found todo!")
+    console.log(`Found todo! ${todo.todo_name}`)
 
     // Insert the todo into the deletedtodos table
+    console.log(`Moving todo! ${todo.todo_name}`);
     await prisma.deletedtodos.create({
       data: {
         original_todo_id: todo.todo_id,
@@ -32,20 +28,23 @@ export async function POST(req, res) {
         deletedtodo_completed: todo.todo_completed,
       },
     });
-
+    console.log(`Moved todo! ${todo.todo_name}`);
     
     // Delete the todo from the todos table
+    console.log(`Deleting todo! ${todo.todo_name}`);
     await prisma.todos.delete({
       where: { todo_id: todoID },
     });
+    console.log(`Deleted todo! ${todo.todo_name}`);
 
-    return res.json(
+    return NextResponse.json(
       { key: "value" },
       {
         status: 200,
       }
     );
   } catch (error) {
+    console.log("FOUND ERROR!!!!!!!")
     console.log(error);
   }
   return NextResponse.json(req)

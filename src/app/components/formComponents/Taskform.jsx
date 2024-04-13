@@ -35,6 +35,7 @@ export default function Taskform() {
             }
             else {
                 console.log("Added your todo to the DB");
+                window.location = "/";
                 setCreatedTodo(true);
 
             }
