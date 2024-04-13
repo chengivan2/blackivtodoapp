@@ -8,14 +8,14 @@ export async function PUT(req, res) {
     const todoID  = await req.json();
     
     console.log("Updating todo in the DB...")
-    const updateTodo = await prisma.todos.update({
+    const undoTodo = await prisma.todos.update({
         where: {
             todo_id: todoID,
         },
         data: {
-            todo_completed: true,
+            todo_completed: false,
         },
     })
     console.log("Updated todo in the DB!")
-    return NextResponse.json({ data: updateTodo })
+    return NextResponse.json({ data: undoTodo })
 }

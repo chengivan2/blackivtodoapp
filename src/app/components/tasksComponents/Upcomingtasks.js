@@ -89,6 +89,32 @@ export default function Upcomingtasks() {
 
   }
 
+  const handleUndo = async (todoID) => {
+
+    try {
+
+      const updatedoeneResponse = await fetch('/api/undo-todo', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(todoID),
+      });
+
+      if (updatedoeneResponse.ok) {
+
+        console.log('Todo Updated successfully');
+        window.location = "/";
+        return updatedoeneResponse.json();
+
+      } else {
+        console.error('Something went wrong');
+      }
+
+    } catch (error) {
+      console.error(error.message)
+    }
+
+  }
+
 
   useEffect(() => {
     getIncompleteTodos();
@@ -193,14 +219,14 @@ export default function Upcomingtasks() {
                   </td>
                   <td>Edit Taks</td>
                   <td><button className='Button-danger' onClick={() => handleDelete(iTodo.todo_id)}>Delete</button></td>
-                  <td><button className='Button-go' onClick={() => handleDone(iTodo.todo_id)}>Undo</button></td>
+                  <td><button className='Button-go' onClick={() => handleUndo(iTodo.todo_id)}>Undo</button></td>
 
                 </tr>
               ))}
             </tbody>
 
           </table> :
-          <p>You need to add some tasks</p>
+          <p>You haven't completed any tasks</p>
         }
 
       </div>

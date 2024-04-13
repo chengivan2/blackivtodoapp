@@ -16,10 +16,10 @@ export async function POST(req, res) {
         todo_id: todoID,
       },
     });
-    console.log(`Found todo! ${todo.todo_name}`)
+    console.log(`Found todo "${todo.todo_name}"!`)
 
     // Insert the todo into the deletedtodos table
-    console.log(`Moving todo! ${todo.todo_name}`);
+    console.log(`Moving todo "${todo.todo_name}"...!`);
     await prisma.deletedtodos.create({
       data: {
         original_todo_id: todo.todo_id,
@@ -28,14 +28,14 @@ export async function POST(req, res) {
         deletedtodo_completed: todo.todo_completed,
       },
     });
-    console.log(`Moved todo! ${todo.todo_name}`);
+    console.log(`Moved todo "${todo.todo_name}"!`);
     
     // Delete the todo from the todos table
-    console.log(`Deleting todo! ${todo.todo_name}`);
+    console.log(`Deleting todo "${todo.todo_name}"...`);
     await prisma.todos.delete({
       where: { todo_id: todoID },
     });
-    console.log(`Deleted todo! ${todo.todo_name}`);
+    console.log(`Deleted todo "${todo.todo_name}"!`);
 
     return NextResponse.json(
       { key: "value" },
@@ -44,8 +44,9 @@ export async function POST(req, res) {
       }
     );
   } catch (error) {
-    console.log("FOUND ERROR!!!!!!!")
+    console.log("FOUND ERROR!!!!!!!  READ ERROR -> !!!")
     console.log(error);
+    console.log(" <- READ ERROR!!!!!!! FOUND ERROR !!!")
   }
   return NextResponse.json(req)
 }

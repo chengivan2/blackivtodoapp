@@ -10,6 +10,6 @@ export async function GET() {
     const returned_response = await prisma.todos.findMany({
         where:{todo_completed: true}
       });
-    console.log("Fetched all completed todos")
+    console.log("Fetched all completed todos!")
     return NextResponse.json({data: returned_response})
 }
