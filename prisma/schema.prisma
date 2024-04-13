@@ -7,8 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model deletedtodos {
   deletedtodo_id          Int     @id @default(autoincrement())
+  original_todo_id        Int     
   deletedtodo_name        String  @db.VarChar(255)
   deletedtodo_description String?
   deletedtodo_completed   Boolean

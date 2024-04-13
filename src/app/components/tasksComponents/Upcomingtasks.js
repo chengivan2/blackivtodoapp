@@ -30,6 +30,29 @@ export default function Upcomingtasks() {
     }
   }
 
+  const handleDelete = async (todoID) => {
+    try {
+      const deleteResponse = await fetch('/api/move-todo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ todoID }),
+      });
+      console.log(deleteResponse.body)
+      if (deleteResponse.ok) {
+
+        console.log('Todo moved successfully');
+      } else {
+        console.error('Something went wrong');
+      }
+
+    } catch (error) {
+      console.error(error.message)
+
+    }
+
+  }
+
+
   useEffect(() => {
     getTodos();
   }, []);
@@ -79,7 +102,7 @@ export default function Upcomingtasks() {
                     {iTodo.todo_description}
                   </td>
                   <td>Edit Taks</td>
-                  <td><button className='Button-danger'>Delete</button></td>
+                  <td><button className='Button-danger' onClick={() => handleDelete(iTodo.todo_id)}>Delete</button></td>
                 </tr>
               ))}
             </tbody>

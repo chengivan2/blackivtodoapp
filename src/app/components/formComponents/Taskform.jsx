@@ -8,6 +8,7 @@ import "@/app/componentsStyles/taskform.css"
 export default function Taskform() {
 
     const [taskName, setTaskName] = useState("");
+    const [createdTodo, setCreatedTodo] = useState(false);
 
     const handleTaskNameChange = (e) => {
         setTaskName(e.target.value);
@@ -18,7 +19,7 @@ export default function Taskform() {
     const handleTaskDescriptionChange = (e) => {
         setTaskDescription(e.target.value);
     };
-    
+
     const onSubmitForm = async (e) => {
         e.preventDefault();
 
@@ -26,21 +27,22 @@ export default function Taskform() {
             const response_from_create_api = await fetch("/api/create-todo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({taskName, taskDescription})
+                body: JSON.stringify({ taskName, taskDescription })
             });
 
             if (!response_from_create_api.ok) {
                 throw new Error(`HTTP error! Status: ${response_from_create_api.status}`);
             }
             else {
-                console.log("Added your todo to the DB")
+                console.log("Added your todo to the DB");
+                setCreatedTodo(true);
 
             }
 
             const responseData = await response_from_create_api.json();
 
             console.log(responseData)
-            
+
 
 
         } catch (error) {
