@@ -1,14 +1,20 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { TaskAddedContext } from '@/app/main';
 import * as Form from '@radix-ui/react-form';
 import "@/app/componentsStyles/taskform.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Taskform() {
 
     const [taskName, setTaskName] = useState("");
-    const [createdTodo, setCreatedTodo] = useState(false);
+
+    const { setTaskAdded } = useContext(TaskAddedContext);
+
+    const notifyAdd = () => toast("Task added successfully!");
 
     const handleTaskNameChange = (e) => {
         setTaskName(e.target.value);
@@ -34,9 +40,9 @@ export default function Taskform() {
                 throw new Error(`HTTP error! Status: ${response_from_create_api.status}`);
             }
             else {
+                notifyAdd();
                 console.log("Added your todo to the DB");
-                window.location = "/";
-                setCreatedTodo(true);
+                setTaskAdded(true);
 
             }
 
@@ -84,6 +90,7 @@ export default function Taskform() {
                     </button>
                 </Form.Submit>
             </Form.Root>
+            <ToastContainer />
         </div>
     )
 }
